@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>40 pieces of clothing</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="faviconklar.png">
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <h1>40 pieces of clothing</h1>
+            <div class="add-item-button" id="uploadZone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Add Item</span>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            </div>
+        </div>
+
+        <div class="ingress">
+            <p>
+                Tired of the endless scroll and overflowing closets? You don't need all the clothes – just the curated gems you'll find here. We're all susceptible to the allure of 'more.' 😜 ✨<br>
+                Look around – you probably have a mountain of unworn 'stuff.' Let's break free from the fast fashion trap and invest in quality pieces you truly love. 🪤 🙈<br>
+                Ditch the disposable, declutter your mind and soul, and embrace the freedom that comes with having less. Fewer clothes, more freedom. 😌 🕊️
+            </p>
+        </div>
+        
+        <div class="item-form" id="itemForm" style="display: none;">
+            <h3>Add Item Details</h3>
+            <form id="clothingForm">
+                <div class="form-group">
+                    <label for="itemName">Name:</label>
+                    <input type="text" id="itemName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemCategory">Category:</label>
+                    <select id="itemCategory" required>
+                        <option value="tops">Tops</option>
+                        <option value="bottoms">Bottoms</option>
+                        <option value="outerwear">Outerwear</option>
+                        <option value="accessories">Gloves, hats and etc</option>
+                        <option value="jewelry">Jewelery</option>
+                        <option value="other">Other stuff</option>
+                        <option value="workwear">Workwear</option>
+                        <option value="training">Training stuff</option>
+                        
+                        
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemDescription">Description:</label>
+                    <textarea id="itemDescription" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemValue">Value (1-6):</label>
+                    <input type="range" id="itemValue" min="1" max="6" value="3" required>
+                    <span id="valueDisplay">3</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit">Add Item</button>
+                    <button type="button" id="cancelForm">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="category-sections">
+            <div class="category-section" id="tops-section">
+                <h2>Tops <span class="item-count">(0)</span> <span class="value-count">💵 0</span></h2>
+                <div class="clothes-grid"></div>
+            </div>
+            <div class="category-section" id="bottoms-section">
+                <h2>Bottoms <span class="item-count">(0)</span> <span class="value-count">💵 0</span></h2>
+                <div class="clothes-grid"></div>
+            </div>
+            <div class="category-section" id="outerwear-section">
+                <h2>Outerwear <span class="item-count">(0)</span> <span class="value-count">💵 0</span></h2>
+                <div class="clothes-grid"></div>
+            </div>
+            <div class="category-section" id="accessories-section">
+                <h2>Gloves, hats and etc <span class="item-count">(0)</span> <span class="value-count">💵 0</span></h2>
+                <div class="clothes-grid"></div>
+            </div>
+            <div class="category-section" id="jewelry-section">
+                <h2>Jewelery <span class="item-count">(0)</span> <span class="value-count">💵 0</span></h2>
+                <div class="clothes-grid"></div>
+            </div>
+            <div class="category-section" id="workwear-section">
+                <h2>Workwear <span class="item-count">(0)</span> <span class="value-count">💵 0</span></h2>
+                <div class="clothes-grid"></div>
+            </div>
+            <div class="category-section" id="training-section">
+                <h2>Training stuff <span class="item-count">(0)</span> <span class="value-count">💵 0</span></h2>
+                <div class="clothes-grid"></div>
+            </div>
+            <div class="category-section" id="other-section">
+                <h2>Other stuff <span class="item-count">(0)</span> <span class="value-count">💵 0</span></h2>
+                <div class="clothes-grid"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <div class="modal" id="imageModal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-caption"></div>
+    </div>
+</body>
+</html> 
