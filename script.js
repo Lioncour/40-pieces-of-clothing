@@ -1,3 +1,18 @@
+const ADMIN_KEY = 'Ctrl+Shift+A'; // or any combination you prefer
+let isAdminMode = false;
+
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        isAdminMode = !isAdminMode;
+        document.getElementById('uploadZone').style.display = isAdminMode ? 'flex' : 'none';
+        document.getElementById('adminIndicator').classList.toggle('active', isAdminMode);
+        document.body.classList.toggle('admin-mode', isAdminMode);
+    }
+});
+
+// Hide button by default
+document.getElementById('uploadZone').style.display = 'none';
+
 document.addEventListener('DOMContentLoaded', function() {
     let currentImageUrl = null;
 
@@ -106,13 +121,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function createClothingItem(data) {
-        console.log('Creating item with data:', data); // Debug log
-        
         const itemDiv = document.createElement('div');
         itemDiv.className = 'clothes-item';
-        itemDiv.dataset.value = data.value; // Store the value for calculations
+        itemDiv.dataset.value = data.value;
         
         itemDiv.innerHTML = `
+            <div class="delete-button">×</div>
             <div class="image-container">
                 <img src="${data.src}" alt="${data.title}">
             </div>
@@ -123,6 +137,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 ${data.description}
             </div>
         `;
+        
+        // Add delete functionality
+        const deleteBtn = itemDiv.querySelector('.delete-button');
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent modal from opening
+            if (confirm('Are you sure you want to delete this item?')) {
+                // Remove from DOM
+                itemDiv.remove();
+                
+                // Remove from localStorage
+                let items = JSON.parse(localStorage.getItem('deletedItems') || '[]');
+                items.push(data.title); // Store deleted item titles
+                localStorage.setItem('deletedItems', JSON.stringify(items));
+                
+                updateCategoryCount(data.category);
+            }
+        });
         
         return itemDiv;
     }
@@ -179,21 +210,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function loadSavedItems() {
-        const savedItems = JSON.parse(localStorage.getItem('wardrobeItems') || '[]');
-        savedItems.forEach(itemData => {
-            const newItem = createClothingItem(itemData);
-            const sectionId = `${itemData.category}-section`;
-            const grid = document.querySelector(`#${sectionId} .clothes-grid`);
-            if (grid) {
-                grid.appendChild(newItem);
-                setupModalForItem(newItem);
-            }
-        });
+        // Get list of deleted items
+        const deletedItems = JSON.parse(localStorage.getItem('deletedItems') || '[]');
+        
+        // Load items from data.js, excluding deleted ones
+        wardrobeItems
+            .filter(item => !deletedItems.includes(item.title))
+            .forEach(itemData => {
+                const newItem = createClothingItem(itemData);
+                const sectionId = `${itemData.category}-section`;
+                const grid = document.querySelector(`#${sectionId} .clothes-grid`);
+                if (grid) {
+                    grid.appendChild(newItem);
+                    setupModalForItem(newItem);
+                }
+            });
         
         // Update all category counts
-        ['tops', 'bottoms', 'outerwear', 'accessories', 'jewelry', 'workwear', 'training', 'other'].forEach(category => {
-            updateCategoryCount(category);
-        });
+        ['tops', 'bottoms', 'outerwear', 'accessories', 'jewelry', 'workwear', 'training', 'other']
+            .forEach(category => {
+                updateCategoryCount(category);
+            });
     }
 
     function saveImage(imageUrl) {
