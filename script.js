@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const value = parseInt(item.dataset.value) || 0;
                     totalValue += value;
                 });
-                valueSpan.textContent = `💵 ${totalValue}`;
+                valueSpan.textContent = `Value: ${totalValue}`;
             }
         }
     }
